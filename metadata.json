@@ -1,0 +1,6 @@
+{
+  "name": "Personal Task & Timeline Tracker",
+  "description": "A minimalist personal task and timeline tracker with Firebase Firestore real-time synchronization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
