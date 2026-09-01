@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E2028"/>
+      <stop offset="100%" stop-color="#0E1015"/>
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="50%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="suitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22252E"/>
+      <stop offset="100%" stop-color="#111216"/>
+    </linearGradient>
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2A578"/>
+      <stop offset="100%" stop-color="#CA8658"/>
+    </linearGradient>
+    <linearGradient id="purpleCollar" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#5B21B6"/>
+    </linearGradient>
+    <clipPath id="circleClip">
+      <circle cx="32" cy="32" r="30"/>
+    </clipPath>
+  </defs>
+
+  <!-- Outer Ring Glow -->
+  <circle cx="32" cy="32" r="31" fill="none" stroke="url(#ringGrad)" stroke-width="2"/>
+  
+  <g clip-path="url(#circleClip)">
+    <!-- Background -->
+    <rect width="64" height="64" fill="url(#bgGrad)"/>
+    
+    <!-- Ambient glow behind head -->
+    <circle cx="32" cy="28" r="22" fill="#7C3AED" opacity="0.2"/>
+
+    <!-- Shoulders & Dark Suit Jacket -->
+    <path d="M 4 64 C 8 46 16 41 32 41 C 48 41 56 46 60 64 Z" fill="url(#suitGrad)"/>
+    
+    <!-- White Inner Shirt -->
+    <polygon points="24,41 40,41 35,62 29,62" fill="#F8FAFC"/>
+
+    <!-- Purple Polo Shirt Collar -->
+    <polygon points="24,39 32,49 22,47" fill="url(#purpleCollar)"/>
+    <polygon points="40,39 32,49 42,47" fill="url(#purpleCollar)"/>
+    <polygon points="29,47 35,47 34,58 30,58" fill="url(#purpleCollar)"/>
+
+    <!-- Suit Lapels -->
+    <polygon points="12,43 24,59 16,64 4,64" fill="#2D313E"/>
+    <polygon points="52,43 40,59 48,64 60,64" fill="#2D313E"/>
+
+    <!-- Neck -->
+    <rect x="27" y="29" width="10" height="14" rx="2" fill="url(#skinGrad)"/>
+
+    <!-- Head / Face -->
+    <ellipse cx="32" cy="24" rx="12" ry="13.5" fill="url(#skinGrad)"/>
+
+    <!-- Wavy Natural Dark Hair -->
+    <path d="M 19 23 C 18 12 25 7 32 7 C 39 7 45 12 45 23 C 41 15 37 13 32 13.5 C 27 13 23 15 19 23 Z" fill="#171717"/>
+    <path d="M 20 20 C 23 15 27 15 30 18 C 33 15 39 15 43 19 C 41 22 40 24 40 26 C 44 20 42 11 32 10 C 22 11 20 20 20 20 Z" fill="#111215"/>
+
+    <!-- Eyebrows -->
+    <path d="M 24 19 Q 27.5 17.5 29.5 19" stroke="#1A1C22" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <path d="M 34.5 19 Q 36.5 17.5 40 19" stroke="#1A1C22" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+
+    <!-- Eyes -->
+    <circle cx="27" cy="21.5" r="1.5" fill="#111827"/>
+    <circle cx="37" cy="21.5" r="1.5" fill="#111827"/>
+    <circle cx="27.4" cy="21.1" r="0.45" fill="#FFFFFF"/>
+    <circle cx="37.4" cy="21.1" r="0.45" fill="#FFFFFF"/>
+
+    <!-- Nose -->
+    <path d="M 31 24.5 Q 32 27 33 24.5" stroke="#B45309" stroke-width="1" fill="none"/>
+
+    <!-- Warm Friendly Smile -->
+    <path d="M 27.5 28.5 Q 32 31.5 36.5 28.5" stroke="#9A3412" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+
+    <!-- Ears -->
+    <circle cx="20" cy="24" r="2.2" fill="url(#skinGrad)"/>
+    <circle cx="44" cy="24" r="2.2" fill="url(#skinGrad)"/>
+  </g>
+</svg>
