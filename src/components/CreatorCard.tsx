@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { UserCheck, Award, Shield, Sparkles, Upload, RefreshCw } from 'lucide-react';
+import { UserCheck, Award, Shield, Upload, RefreshCw, Loader2, CloudCheck } from 'lucide-react';
+import {
+  subscribeCreatorProfile,
+  saveCreatorAvatar,
+  resetCreatorAvatar,
+  compressImageFile,
+} from '../firebase/creatorService';
 
 interface CreatorCardProps {
   compact?: boolean;
@@ -9,19 +15,62 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
   const [customAvatar, setCustomAvatar] = useState<string | null>(() => {
     return localStorage.getItem('creator_custom_avatar') || null;
   });
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSyncedWithCloud, setIsSyncedWithCloud] = useState(false);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64 = event.target?.result as string;
-        if (base64) {
-          setCustomAvatar(base64);
-          localStorage.setItem('creator_custom_avatar', base64);
+  // Real-time Firestore sync listener across all devices
+  useEffect(() => {
+    const unsubscribe = subscribeCreatorProfile(
+      (profile) => {
+        if (profile.avatarBase64) {
+          setCustomAvatar(profile.avatarBase64);
+          localStorage.setItem('creator_custom_avatar', profile.avatarBase64);
+        } else {
+          setCustomAvatar(null);
+          localStorage.removeItem('creator_custom_avatar');
         }
-      };
-      reader.readAsDataURL(file);
+        setIsSyncedWithCloud(true);
+      },
+      (error) => {
+        console.error('Error syncing creator profile from Firestore:', error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      // Compress and format image for cloud persistence
+      const compressedBase64 = await compressImageFile(file, 480, 640, 0.85);
+      
+      // Update local state immediately
+      setCustomAvatar(compressedBase64);
+      localStorage.setItem('creator_custom_avatar', compressedBase64);
+
+      // Save to Cloud Firestore so all devices see the new photo
+      await saveCreatorAvatar(compressedBase64);
+      setIsUploading(false);
+    } catch (err) {
+      console.error('Failed to save creator photo to Firestore:', err);
+      setIsUploading(false);
+    }
+  };
+
+  const handleResetAvatar = async () => {
+    try {
+      setIsUploading(true);
+      setCustomAvatar(null);
+      localStorage.removeItem('creator_custom_avatar');
+      await resetCreatorAvatar();
+      setIsUploading(false);
+    } catch (err) {
+      console.error('Failed to reset creator avatar in Firestore:', err);
+      setIsUploading(false);
     }
   };
 
@@ -30,12 +79,29 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
 
     if (customAvatar) {
       return (
-        <img
-          src={customAvatar}
-          alt="นายมาโนช บุญเพ็ง - ผู้จัดทำ"
-          referrerPolicy="no-referrer"
-          className={`${sizeClass} ${shapeClass} object-cover object-top border-2 border-purple-500/60 shadow-lg`}
-        />
+        <div className={`relative ${sizeClass} ${shapeClass} overflow-hidden border-2 border-purple-500/60 shadow-lg bg-[#161A24]`}>
+          <img
+            src={customAvatar}
+            alt="นายมาโนช บุญเพ็ง - ผู้จัดทำ"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-top"
+          />
+          {isUploading && (
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center text-white text-[10px] gap-1 z-20">
+              <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+              <span>กำลังบันทึก...</span>
+            </div>
+          )}
+          {/* Hover overlay hint */}
+          <label 
+            htmlFor="upload-creator-avatar" 
+            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-[10px] text-white cursor-pointer transition-opacity text-center p-1 z-10"
+            title="คลิกเพื่ออัปโหลดหรือเปลี่ยนรูปโปรไฟล์ (บันทึกลง Cloud)"
+          >
+            <Upload className="w-3.5 h-3.5 mb-1 text-purple-300" />
+            <span>เปลี่ยนรูป</span>
+          </label>
+        </div>
       );
     }
 
@@ -110,13 +176,20 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
           <circle cx="69" cy="48" r="3.5" fill="url(#skinGrad)" />
         </svg>
 
+        {isUploading && (
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-xs flex flex-col items-center justify-center text-white text-[10px] gap-1 z-20">
+            <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+            <span>กำลังบันทึก...</span>
+          </div>
+        )}
+
         {/* Hover overlay hint */}
         <label 
           htmlFor="upload-creator-avatar" 
-          className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-[10px] text-white cursor-pointer transition-opacity text-center p-1"
-          title="คลิกเพื่ออัปโหลดหรือเปลี่ยนรูปโปรไฟล์"
+          className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-[10px] text-white cursor-pointer transition-opacity text-center p-1 z-10"
+          title="คลิกเพื่ออัปโหลดหรือเปลี่ยนรูปโปรไฟล์ (บันทึกลง Cloud)"
         >
-          <Upload className="w-3.5 h-3.5 mb-1" />
+          <Upload className="w-3.5 h-3.5 mb-1 text-purple-300" />
           <span>เปลี่ยนรูป</span>
         </label>
       </div>
@@ -125,12 +198,13 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
 
   if (compact) {
     return (
-      <div className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl bg-[#12141A] border border-[#2D3139] shadow-xs">
+      <div className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl bg-[#12141A] border border-[#2D3139] shadow-xs group">
         <input
-          id="upload-creator-avatar"
+          id="upload-creator-avatar-compact"
           type="file"
           accept="image/*"
           className="hidden"
+          disabled={isUploading}
           onChange={handleImageUpload}
         />
         {renderAvatarContent('w-8 h-8')}
@@ -149,12 +223,13 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
   }
 
   return (
-    <div className="bg-[#161920] rounded-2xl border border-[#2D3139] p-5 sm:p-6 shadow-md relative overflow-hidden">
+    <div className="bg-[#161920] rounded-2xl border border-[#2D3139] p-5 sm:p-6 shadow-md relative overflow-hidden group">
       <input
         id="upload-creator-avatar"
         type="file"
         accept="image/*"
         className="hidden"
+        disabled={isUploading}
         onChange={handleImageUpload}
       />
       {/* Decorative ambient gradient */}
@@ -178,7 +253,7 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
             </span>
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-950/40 text-blue-300 border border-blue-800/40">
               <Shield className="w-3 h-3" />
-              <span>Personal Task Tracker</span>
+              <span>Cloud Firestore Real-time</span>
             </span>
           </div>
 
@@ -193,18 +268,28 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
           <div className="mt-3.5 flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs text-slate-400">
             <label
               htmlFor="upload-creator-avatar"
-              className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12141A] hover:bg-[#202530] text-slate-300 border border-[#2D3139] hover:border-purple-500/50 transition-colors"
+              className={`cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12141A] hover:bg-[#202530] text-slate-300 border border-[#2D3139] hover:border-purple-500/50 transition-colors ${
+                isUploading ? 'opacity-50 pointer-events-none' : ''
+              }`}
             >
-              <Upload className="w-3.5 h-3.5 text-purple-400" />
-              <span>{customAvatar ? 'เปลี่ยนรูปภาพโปรไฟล์' : 'อัปโหลดรูปภาพโปรไฟล์'}</span>
+              {isUploading ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 text-purple-400 animate-spin" />
+                  <span>กำลังบันทึกลง Cloud...</span>
+                </>
+              ) : (
+                <>
+                  <Upload className="w-3.5 h-3.5 text-purple-400" />
+                  <span>{customAvatar ? 'เปลี่ยนรูปภาพโปรไฟล์ (Cloud Sync)' : 'อัปโหลดรูปภาพโปรไฟล์ (Cloud Sync)'}</span>
+                </>
+              )}
             </label>
             {customAvatar && (
               <button
-                onClick={() => {
-                  setCustomAvatar(null);
-                  localStorage.removeItem('creator_custom_avatar');
-                }}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#242830] transition-colors"
+                type="button"
+                onClick={handleResetAvatar}
+                disabled={isUploading}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#242830] transition-colors disabled:opacity-50"
               >
                 <RefreshCw className="w-3 h-3" />
                 <span>รีเซ็ตเป็นรูปเริ่มต้น</span>
@@ -216,3 +301,4 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
     </div>
   );
 };
+
