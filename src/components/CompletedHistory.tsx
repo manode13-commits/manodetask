@@ -37,11 +37,12 @@ export const CompletedHistory: React.FC<CompletedHistoryProps> = ({
   return (
     <div id="completed-history-section" className="my-5 max-w-4xl mx-auto space-y-4">
       {/* Header & Controls */}
-      <div className="bg-[#161920] p-4 rounded-xl border border-[#2D3139] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-base sm:text-lg font-bold text-[#F8FAFC] flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>ประวัติงานที่ทำเสร็จแล้ว (Completed History)</span>
+      <div className="bg-[#161920] p-3.5 sm:p-4 rounded-xl border border-[#2D3139] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <h2 className="text-base sm:text-lg font-bold text-[#F8FAFC] flex items-center gap-2 truncate">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+            <span className="hidden sm:inline">ประวัติงานที่ทำเสร็จแล้ว (Completed History)</span>
+            <span className="sm:hidden">ประวัติงานที่ทำเสร็จแล้ว</span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
             บันทึกประวัติความสำเร็จพร้อมเวลาที่เสร็จสิ้น ({completedTasks.length} รายการ)
@@ -49,7 +50,7 @@ export const CompletedHistory: React.FC<CompletedHistoryProps> = ({
         </div>
 
         {/* Search Bar */}
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full sm:w-64 flex-shrink-0">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             id="input-search-completed-tasks"

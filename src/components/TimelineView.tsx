@@ -173,13 +173,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       </div>
 
       {/* Timeline Nodes & Vertical Spine */}
-      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-2.5 sm:before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-[#2D3139]">
+      <div className="relative pl-7 sm:pl-9 space-y-6 before:absolute before:left-[9px] before:top-3 before:bottom-3 before:w-0.5 before:bg-[#2D3139]">
         {timelineGroups.map((group) => {
           return (
             <div key={group.groupKey} className="relative">
               {/* Timeline Section Node Indicator */}
               <div
-                className={`absolute -left-6 sm:-left-8 top-1 w-5 h-5 rounded-full border-2 bg-[#161920] flex items-center justify-center z-10 ${
+                className={`absolute -left-7 sm:-left-9 top-1 w-5 h-5 rounded-full border-2 bg-[#161920] flex items-center justify-center z-10 ${
                   group.isOverdueGroup
                     ? 'border-rose-500 text-rose-400 ring-3 ring-rose-950/60'
                     : group.isTodayGroup

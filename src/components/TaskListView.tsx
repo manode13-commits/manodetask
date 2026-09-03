@@ -82,13 +82,13 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
         </div>
 
         {/* Priority & Sorting Filters */}
-        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
           {/* Priority filter */}
-          <div className="flex items-center gap-1 bg-[#12141A] p-0.5 border border-[#2D3139] rounded-lg text-xs font-medium">
+          <div className="grid grid-cols-4 sm:flex items-center gap-1 bg-[#12141A] p-0.5 border border-[#2D3139] rounded-lg text-xs font-medium w-full sm:w-auto">
             <button
               id="filter-priority-all"
               onClick={() => setFilters((prev) => ({ ...prev, priority: 'all' }))}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-2 sm:px-2.5 py-1.5 sm:py-1 rounded-md transition-all text-center ${
                 filters.priority === 'all'
                   ? 'bg-[#222733] text-[#F8FAFC] shadow-xs font-semibold border border-[#3B4252]'
                   : 'text-slate-400 hover:text-slate-200'
@@ -99,7 +99,7 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
             <button
               id="filter-priority-high"
               onClick={() => setFilters((prev) => ({ ...prev, priority: 'High' }))}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-2 sm:px-2.5 py-1.5 sm:py-1 rounded-md transition-all text-center ${
                 filters.priority === 'High'
                   ? 'bg-rose-950/80 text-rose-300 font-semibold shadow-xs border border-rose-700/80'
                   : 'text-slate-400 hover:text-rose-300'
@@ -110,7 +110,7 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
             <button
               id="filter-priority-medium"
               onClick={() => setFilters((prev) => ({ ...prev, priority: 'Medium' }))}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-2 sm:px-2.5 py-1.5 sm:py-1 rounded-md transition-all text-center ${
                 filters.priority === 'Medium'
                   ? 'bg-amber-950/80 text-amber-300 font-semibold shadow-xs border border-amber-700/80'
                   : 'text-slate-400 hover:text-amber-300'
@@ -121,7 +121,7 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
             <button
               id="filter-priority-low"
               onClick={() => setFilters((prev) => ({ ...prev, priority: 'Low' }))}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-2 sm:px-2.5 py-1.5 sm:py-1 rounded-md transition-all text-center ${
                 filters.priority === 'Low'
                   ? 'bg-[#2D3139] text-slate-200 font-semibold shadow-xs border border-slate-600'
                   : 'text-slate-400 hover:text-slate-200'
@@ -138,7 +138,7 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, sortBy: e.target.value as any }))
             }
-            className="px-2.5 py-1.5 text-xs sm:text-sm bg-[#12141A] border border-[#2D3139] rounded-lg focus:outline-hidden focus:ring-1 focus:ring-blue-500 text-[#E2E8F0] font-medium"
+            className="w-full sm:w-auto px-2.5 py-1.5 text-xs sm:text-sm bg-[#12141A] border border-[#2D3139] rounded-lg focus:outline-hidden focus:ring-1 focus:ring-blue-500 text-[#E2E8F0] font-medium"
           >
             <option value="dueDateAsc">เรียงตาม: กำหนดส่งใกล้สุด</option>
             <option value="dueDateDesc">เรียงตาม: กำหนดส่งไกลสุด</option>

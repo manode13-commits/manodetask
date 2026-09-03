@@ -223,7 +223,7 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
   }
 
   return (
-    <div className="bg-[#161920] rounded-2xl border border-[#2D3139] p-5 sm:p-6 shadow-md relative overflow-hidden group">
+    <div className="bg-[#161920] rounded-2xl border border-[#2D3139] p-4 sm:p-6 shadow-md relative overflow-hidden group">
       <input
         id="upload-creator-avatar"
         type="file"
@@ -238,26 +238,26 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 relative z-10">
         {/* Avatar (Width 3cm x Height 4cm) */}
         <div className="relative flex-shrink-0">
-          {renderAvatarContent('w-[3cm] h-[4cm] min-w-[3cm] min-h-[4cm]', true)}
+          {renderAvatarContent('w-[3cm] h-[4cm] max-w-full aspect-[3/4]', true)}
           <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-[#161920] flex items-center justify-center text-white shadow-sm" title="สถานะพร้อมใช้งาน">
             <UserCheck className="w-3 h-3 stroke-[3]" />
           </span>
         </div>
 
         {/* Details */}
-        <div className="flex-1 text-center sm:text-left min-w-0">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-950/60 text-purple-300 border border-purple-800/60">
-              <Award className="w-3.5 h-3.5" />
-              <span>ผู้จัดทำระบบ (System Author)</span>
+        <div className="flex-1 text-center sm:text-left min-w-0 w-full">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 mb-1">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold bg-purple-950/60 text-purple-300 border border-purple-800/60">
+              <Award className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              <span>ผู้จัดทำระบบ</span>
             </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-950/40 text-blue-300 border border-blue-800/40">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium bg-blue-950/40 text-blue-300 border border-blue-800/40">
               <Shield className="w-3 h-3" />
-              <span>Cloud Firestore Real-time</span>
+              <span>Firestore Real-time</span>
             </span>
           </div>
 
-          <h3 className="text-lg sm:text-xl font-bold text-[#F8FAFC] tracking-tight">
+          <h3 className="text-base sm:text-xl font-bold text-[#F8FAFC] tracking-tight">
             นายมาโนช บุญเพ็ง
           </h3>
 
@@ -265,10 +265,10 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
             ผู้พัฒนาและจัดทำระบบจัดการตารางงานและเส้นเวลาส่วนบุคคล (Personal Task & Timeline Tracker) เชื่อมต่อระบบฐานข้อมูล Cloud Firestore แบบ Real-time
           </p>
 
-          <div className="mt-3.5 flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs text-slate-400">
+          <div className="mt-3.5 flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-xs text-slate-400">
             <label
               htmlFor="upload-creator-avatar"
-              className={`cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12141A] hover:bg-[#202530] text-slate-300 border border-[#2D3139] hover:border-purple-500/50 transition-colors ${
+              className={`cursor-pointer inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#12141A] hover:bg-[#202530] text-slate-300 border border-[#2D3139] hover:border-purple-500/50 transition-colors text-xs ${
                 isUploading ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -280,7 +280,8 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
               ) : (
                 <>
                   <Upload className="w-3.5 h-3.5 text-purple-400" />
-                  <span>{customAvatar ? 'เปลี่ยนรูปภาพโปรไฟล์ (Cloud Sync)' : 'อัปโหลดรูปภาพโปรไฟล์ (Cloud Sync)'}</span>
+                  <span className="hidden sm:inline">{customAvatar ? 'เปลี่ยนรูปภาพโปรไฟล์ (Cloud Sync)' : 'อัปโหลดรูปภาพโปรไฟล์ (Cloud Sync)'}</span>
+                  <span className="sm:hidden">{customAvatar ? 'เปลี่ยนรูปโปรไฟล์' : 'อัปโหลดรูปโปรไฟล์'}</span>
                 </>
               )}
             </label>
@@ -289,7 +290,7 @@ export const CreatorCard: React.FC<CreatorCardProps> = ({ compact = false }) => 
                 type="button"
                 onClick={handleResetAvatar}
                 disabled={isUploading}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#242830] transition-colors disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#242830] transition-colors disabled:opacity-50 text-xs"
               >
                 <RefreshCw className="w-3 h-3" />
                 <span>รีเซ็ตเป็นรูปเริ่มต้น</span>

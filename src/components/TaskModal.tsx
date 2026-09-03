@@ -93,16 +93,16 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   return (
     <div
       id="task-modal-overlay"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
         id="task-modal-content"
-        className="bg-[#161920] w-full max-w-lg rounded-2xl border border-[#2D3139] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 text-[#E2E8F0]"
+        className="bg-[#161920] w-full max-w-lg max-h-[92dvh] rounded-2xl border border-[#2D3139] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200 text-[#E2E8F0]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="px-5 py-4 border-b border-[#2D3139] flex items-center justify-between">
+        <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-[#2D3139] flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#12141A] border border-[#2D3139] flex items-center justify-center text-slate-300">
               <FileText className="w-4 h-4" />
@@ -121,7 +121,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4 overflow-y-auto flex-1">
           {errorMessage && (
             <div className="p-3 bg-rose-950/60 border border-rose-800 text-rose-300 rounded-xl flex items-center gap-2 text-xs sm:text-sm">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />

@@ -164,12 +164,12 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6">
         {/* Floating Notification Toast */}
         {notification && (
           <div
             id="toast-notification"
-            className={`fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl shadow-2xl border flex items-center gap-2.5 text-xs sm:text-sm animate-in slide-in-from-bottom-5 duration-200 ${
+            className={`fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-50 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl shadow-2xl border flex items-center gap-2.5 text-xs sm:text-sm animate-in slide-in-from-bottom-5 duration-200 max-w-[calc(100vw-2rem)] ${
               notification.type === 'success'
                 ? 'bg-[#161920] text-[#E2E8F0] border-[#2D3139]'
                 : 'bg-rose-950/90 text-rose-200 border-rose-800/80'
@@ -180,7 +180,7 @@ export default function App() {
             ) : (
               <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
             )}
-            <span className="font-medium">{notification.message}</span>
+            <span className="font-medium truncate">{notification.message}</span>
           </div>
         )}
 
@@ -196,7 +196,7 @@ export default function App() {
           </div>
         ) : (
           /* View Content Switcher */
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
               {currentView === 'timeline' && (
                 <TimelineView
@@ -254,7 +254,7 @@ export default function App() {
           setEditingTask(null);
           setIsModalOpen(true);
         }}
-        className="sm:hidden fixed right-5 bottom-6 z-40 w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/40 border border-blue-400/30 flex items-center justify-center active:scale-95 transition-all"
+        className="md:hidden fixed right-4 bottom-5 sm:right-6 sm:bottom-6 z-40 w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/40 border border-blue-400/30 flex items-center justify-center active:scale-95 transition-all"
         aria-label="สร้างงานใหม่"
       >
         <Plus className="w-6 h-6" />

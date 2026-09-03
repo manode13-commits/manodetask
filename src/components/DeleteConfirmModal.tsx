@@ -35,11 +35,11 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
   return (
     <div
       id="delete-confirm-modal-overlay"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div
-        className="bg-[#161920] w-full max-w-md rounded-2xl border border-[#2D3139] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150 text-[#E2E8F0]"
+        className="bg-[#161920] w-full max-w-md max-h-[92dvh] rounded-2xl border border-[#2D3139] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-150 text-[#E2E8F0]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

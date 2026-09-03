@@ -43,25 +43,25 @@ service cloud.firestore {
   return (
     <div
       id="firestore-rules-modal-overlay"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
         id="firestore-rules-modal-content"
-        className="bg-[#161920] w-full max-w-2xl rounded-2xl border border-[#2D3139] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col text-[#E2E8F0]"
+        className="bg-[#161920] w-full max-w-2xl rounded-2xl border border-[#2D3139] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[92dvh] flex flex-col text-[#E2E8F0]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-5 py-4 border-b border-[#2D3139] flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 flex items-center justify-center">
+        <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-[#2D3139] flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0 pr-2">
+            <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 flex items-center justify-center flex-shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <div>
-              <h2 className="text-base sm:text-lg font-bold text-[#F8FAFC]">
-                คู่มือการตั้งค่า Firestore Database Rules
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-lg font-bold text-[#F8FAFC] truncate">
+                คู่มือการตั้งค่า Firestore Rules
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
                 สำหรับ Personal Task & Timeline Tracker (ใช้งานคนเดียว)
               </p>
             </div>
@@ -69,7 +69,7 @@ service cloud.firestore {
           <button
             id="btn-close-rules-modal"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#242830] transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#242830] transition-colors flex-shrink-0"
           >
             <X className="w-4 h-4" />
           </button>

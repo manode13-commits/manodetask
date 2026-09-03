@@ -72,13 +72,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           : 'border-[#2D3139] bg-[#161920] hover:border-[#3D4450] hover:bg-[#1A1D25]'
       }`}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-2.5 sm:gap-3">
         {/* Mark as Done Custom Checkbox */}
         <button
           id={`btn-toggle-task-${task.id}`}
           onClick={handleToggle}
           aria-label={isCompleted ? 'ทำเครื่องหมายว่ายังไม่เสร็จ' : 'ทำเครื่องหมายว่าเสร็จแล้ว'}
-          className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded-md border flex items-center justify-center transition-all ${
+          className={`mt-0.5 flex-shrink-0 w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-md border flex items-center justify-center transition-all ${
             isCompleted
               ? 'bg-emerald-600 border-emerald-500 text-white'
               : 'border-[#3B4252] bg-[#12141A] hover:border-emerald-500 hover:bg-emerald-950/30 text-transparent'
@@ -89,7 +89,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
         {/* Task Details Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap items-center gap-2 mb-1">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
             {getPriorityBadge(task.priority)}
             
             {/* Due Date or Completed Status Pill */}
@@ -128,9 +128,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
           {/* Meta & Timestamps Footer */}
           <div className="mt-3 pt-2.5 border-t border-[#242830] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 min-w-0">
               <span className="flex items-center gap-1 text-[11px]" title={`กำหนดส่ง: ${formatDateTime(task.dueDate)}`}>
-                <Calendar className="w-3 h-3 text-slate-500" />
+                <Calendar className="w-3 h-3 text-slate-500 flex-shrink-0" />
                 <span className="font-medium text-slate-300">กำหนด:</span> {formatDateShort(task.dueDate)}
               </span>
 
@@ -149,7 +149,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   e.stopPropagation();
                   onEdit(task);
                 }}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#262A33] transition-colors"
+                className="p-1.5 sm:p-2 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-[#262A33] transition-colors"
                 title="แก้ไขข้อมูลงาน"
               >
                 <Edit2 className="w-3.5 h-3.5" />
@@ -160,7 +160,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   e.stopPropagation();
                   onDelete(task.id);
                 }}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-950/50 transition-colors"
+                className="p-1.5 sm:p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-950/50 transition-colors"
                 title="ลบงานนี้"
               >
                 <Trash2 className="w-3.5 h-3.5" />
